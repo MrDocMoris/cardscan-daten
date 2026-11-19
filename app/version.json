@@ -1,7 +1,7 @@
 {
- "build": 23,
- "version": "1.23",
- "size": 5487617,
+ "build": 25,
+ "version": "1.25",
+ "size": 5492478,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Behoben: Kamera blieb nach dem Wechsel auf einen anderen Reiter eingefroren\n- Kamera schaltet sich außerhalb des Scanners aus (spart Akku)"
+ "notes": "Neu in dieser Version:\n- Automatische Bildverbesserung bei schlechtem Licht (Farbstich, Schatten, zu dunkel) für bessere Erkennung\n- Sehr dunkles Foto: Licht schaltet sich automatisch ein\n- Kartenbild antippen: Vollbild mit Zoom, deutsches Kartenbild bei Magic und Pokémon\n- Sammlung: Einträge antippen und bearbeiten (Anzahl, Zustand, Sprache, Edition, Foil, löschen)"
 }
