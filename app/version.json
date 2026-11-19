@@ -1,7 +1,7 @@
 {
-  "build": 29,
-  "version": "1.29",
-  "size": 6500575,
+  "build": 30,
+  "version": "1.30",
+  "size": 6501877,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
   "notes": "Karten aus der Sammlung direkt ins Deck übernehmen"
 }
