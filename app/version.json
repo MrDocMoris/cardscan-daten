@@ -1,7 +1,7 @@
 {
-  "build": 30,
-  "version": "1.30",
-  "size": 6501877,
+  "build": 31,
+  "version": "1.31",
+  "size": 6505065,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Karten aus der Sammlung direkt ins Deck übernehmen"
+  "notes": "Animationen für Münzwurf und Würfel, Einstellungen über Zahnrad in der Sammlung"
 }
