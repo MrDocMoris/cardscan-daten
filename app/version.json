@@ -1,7 +1,7 @@
 {
-  "build": 28,
-  "version": "1.28",
-  "size": 6499723,
+  "build": 29,
+  "version": "1.29",
+  "size": 6500575,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Neues App-Symbol und Multiversum-Design"
+  "notes": "Scan-Animation beim Foto"
 }
