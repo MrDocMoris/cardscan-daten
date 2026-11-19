@@ -1,7 +1,7 @@
 {
-  "build": 31,
-  "version": "1.31",
-  "size": 6505065,
+  "build": 32,
+  "version": "1.32",
+  "size": 6507744,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Animationen für Münzwurf und Würfel, Einstellungen über Zahnrad in der Sammlung"
+  "notes": "Set-Neuigkeiten beim Start: kommende und neue Sets mit Datum"
 }
