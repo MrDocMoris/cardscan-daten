@@ -1,0 +1,7 @@
+{
+ "build": 17,
+ "version": "1.17",
+ "size": 5454847,
+ "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
+ "notes": "Neu in dieser Version:\n- Die App sucht selbst nach Updates\n- Yu-Gi-Oh-Bilddatenbank wird online aktualisiert (neue Karten jeden Montag)\n- Yu-Gi-Oh-Preise je Druck alle zwei Tage, ohne Neuinstallation"
+}
