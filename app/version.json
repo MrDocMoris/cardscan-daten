@@ -1,7 +1,7 @@
 {
- "build": 17,
- "version": "1.17",
- "size": 5454847,
+ "build": 18,
+ "version": "1.18",
+ "size": 5463897,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Die App sucht selbst nach Updates\n- Yu-Gi-Oh-Bilddatenbank wird online aktualisiert (neue Karten jeden Montag)\n- Yu-Gi-Oh-Preise je Druck alle zwei Tage, ohne Neuinstallation"
+ "notes": "Neu in dieser Version:\n- Duell: Lebenspunkte-Zähler für Magic (2–6 Spieler, Gift, Commander-Schaden) und Yu-Gi-Oh (LP-Rechner, Halbieren)\n- Würfel, Münze, „Wer beginnt?“, Verlauf und Rückgängig\n- Android-Zurück-Taste schließt Fenster statt die App"
 }
