@@ -1,0 +1,40 @@
+name: Yu-Gi-Oh Bilddatenbank
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"   # montags: neue Karten nachladen
+  workflow_dispatch:
+    inputs:
+      validate:
+        description: "Erkennung danach testen (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  bilder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Werkzeuge installieren
+        run: cd tools && npm i --no-audit --no-fund sharp
+      - name: Fingerabdruecke berechnen (nur neue Bilder)
+        run: node tools/build-ygo-hashes.js
+      - name: Erkennung testen
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.validate == 'true'
+        run: node tools/validate.js --n 400 --neg 200 | tee data/validierung.txt
+      - name: Speichern
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then echo "Keine Aenderungen"; exit 0; fi
+          git commit -m "Bilddatenbank aktualisiert ($(date +%d.%m.%Y))"
+          git pull --rebase origin main
+          git push
