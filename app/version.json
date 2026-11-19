@@ -1,7 +1,7 @@
 {
- "build": 22,
- "version": "1.22",
- "size": 5487032,
+ "build": 23,
+ "version": "1.23",
+ "size": 5487617,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Kartentext auf Deutsch: Beim Antippen einer Karte siehst du den Effekt (Magic, Yu-Gi-Oh) bzw. Fähigkeiten und Attacken (Pokémon)\n- Gibt es keinen deutschen Text, wird der englische angezeigt"
+ "notes": "Neu in dieser Version:\n- Behoben: Kamera blieb nach dem Wechsel auf einen anderen Reiter eingefroren\n- Kamera schaltet sich außerhalb des Scanners aus (spart Akku)"
 }
