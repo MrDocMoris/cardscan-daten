@@ -1,7 +1,7 @@
 {
- "build": 20,
- "version": "1.20",
- "size": 5484569,
+ "build": 21,
+ "version": "1.21",
+ "size": 5484637,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Bannlisten: Magic (alle Formate), Yu-Gi-Oh (TCG) live, Pokémon (Standard + Expanded)\n- Bann-Status direkt in der Kartenansicht\n- Glossar jetzt auch für Yu-Gi-Oh und Pokémon\n- Pokémon-Duell: Preiskarten, Schadenszähler, Zustände und Pokémon-Check\n- Bereich „Duell“ heißt jetzt „Spielen“"
+ "notes": "Neu in dieser Version:\n- Updates funktionieren jetzt: Die App wird immer mit demselben Schlüssel signiert\n- Enthält alles aus 1.20 (Bannlisten, Glossare, Pokémon-Duell)"
 }
