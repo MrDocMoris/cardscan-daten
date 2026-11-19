@@ -1,0 +1,34 @@
+name: Set-Neuigkeiten aktualisieren
+
+on:
+  schedule:
+    - cron: "41 3 * * *"   # täglich früh morgens
+  workflow_dispatch:
+  push:
+    paths:
+      - data/set-news-extra.json
+      - tools/build-set-news.js
+
+permissions:
+  contents: write
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Neue und kommende Sets sammeln
+        run: node tools/build-set-news.js
+      - name: Speichern
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/set-news.json
+          if git diff --cached --quiet; then echo "Keine Aenderungen"; exit 0; fi
+          git commit -m "Set-Neuigkeiten aktualisiert ($(date +%d.%m.%Y))"
+          git pull --rebase
+          git push

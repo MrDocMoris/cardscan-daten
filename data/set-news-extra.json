@@ -1,0 +1,16 @@
+{
+  "_hinweis": "Angekündigte Sets, die die Karten-Datenbanken evtl. noch nicht kennen. Werden mit den API-Daten zusammengeführt; Einträge verschwinden automatisch, wenn die API das Set kennt oder das Datum zu alt ist.",
+  "sets": [
+    {"game": "mtg", "name": "Nauctis: The Sunken Realm", "date": "2027-02-05", "type": "Erweiterung"},
+    {"game": "mtg", "name": "Darkhold Destiny (Universes Beyond)", "date": "2027-04-09", "type": "Universes Beyond"},
+    {"game": "mtg", "name": "Kamigawa: Titanbreach", "date": "2027-06-04", "type": "Erweiterung"},
+    {"game": "mtg", "name": "Universes Beyond (noch unbenannt)", "date": "2027-08-06", "type": "Universes Beyond"},
+    {"game": "mtg", "name": "Zhalfir", "date": "2027-10-01", "type": "Erweiterung"},
+    {"game": "mtg", "name": "Universes Beyond (noch unbenannt)", "date": "2027-11-19", "type": "Universes Beyond"},
+    {"game": "pkm", "name": "Mega-Entwicklung – Delta Reign", "date": "2026-11-06", "type": "Erweiterung"},
+    {"game": "pkm", "name": "Flowing Fists (Mega Lucario Z)", "date": "2027-02-05", "type": "Erweiterung", "note": "angekündigt"},
+    {"game": "ygo", "name": "Immortal Phoenix", "date": "2027-01-29", "type": "Booster Set"},
+    {"game": "ygo", "name": "Structure Deck: HERO Force", "date": "2027-02-25", "type": "Structure Deck"},
+    {"game": "ygo", "name": "Maze of Machines", "date": "2027-03-19", "type": "Booster Set"}
+  ]
+}
