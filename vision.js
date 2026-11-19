@@ -199,6 +199,52 @@
     return r;
   }
 
+
+  /* ---------- Bildverbesserung bei schlechtem Licht ----------
+   * data: RGBA- oder RGB-Pixel, ch: 4 oder 3. Liefert neue Pixel (gleiches Format).
+   * 1) Weißabgleich (Gray-World) gegen Farbstich
+   * 2) Beleuchtungsausgleich: Helligkeit durch stark geglättete Helligkeit teilen (Schatten/Lampenschein)
+   * 3) Kontrast strecken (1–99 %) und Gamma so, dass die Bildmitte mittelhell wird
+   */
+  function enhance(data, w, h, ch) {
+    const n = w * h, out = new Uint8ClampedArray(data.length);
+    let sr = 0, sg = 0, sb = 0;
+    for (let i = 0, j = 0; i < n; i++, j += ch) { sr += data[j]; sg += data[j + 1]; sb += data[j + 2]; }
+    const mr = sr / n || 1, mg = sg / n || 1, mb = sb / n || 1, m = (mr + mg + mb) / 3;
+    const clampG = v => Math.max(0.6, Math.min(1.7, v));
+    const gr = clampG(m / mr), gg = clampG(m / mg), gb = clampG(m / mb);
+    const L = new Float32Array(n);
+    for (let i = 0, j = 0; i < n; i++, j += ch) L[i] = 0.299 * data[j] * gr + 0.587 * data[j + 1] * gg + 0.114 * data[j + 2] * gb;
+    // Beleuchtung schätzen: Kastenfilter mit großem Radius über Integralbild
+    const S = integral({g: L, w, h});
+    const r = Math.max(4, Math.round(Math.max(w, h) / 10));
+    let meanI = 0;
+    const I = new Float32Array(n);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const v = boxMean(S, x - r, y - r, x + r + 1, y + r + 1); I[y * w + x] = v; meanI += v; }
+    meanI /= n;
+    const F = new Float32Array(n);
+    for (let i = 0; i < n; i++) { const flat = L[i] * meanI / Math.max(8, I[i]); F[i] = 0.35 * L[i] + 0.65 * flat; }
+    // Kontrast strecken + Gamma
+    const hist = new Uint32Array(256);
+    for (let i = 0; i < n; i++) hist[Math.max(0, Math.min(255, F[i] | 0))]++;
+    const pctl = p => { let acc = 0; for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= n * p) return v; } return 255; };
+    const lo = pctl(0.01), hi = Math.max(lo + 16, pctl(0.99)), med = (pctl(0.5) - lo) / (hi - lo);
+    const gamma = Math.max(0.45, Math.min(2.2, Math.log(0.5) / Math.log(Math.max(0.05, Math.min(0.95, med)))));
+    for (let i = 0, j = 0; i < n; i++, j += ch) {
+      let t = (F[i] - lo) / (hi - lo); t = t <= 0 ? 0 : t >= 1 ? 1 : Math.pow(t, gamma);
+      const k = (t * 255) / Math.max(1, L[i]); // Farbe erhalten: alle Kanäle gleich skalieren
+      out[j] = data[j] * gr * k; out[j + 1] = data[j + 1] * gg * k; out[j + 2] = data[j + 2] * gb * k;
+      if (ch === 4) out[j + 3] = 255;
+    }
+    return out;
+  }
+  /* Wie hell ist ein Bild? (0–255, Mittelwert der Helligkeit, grob abgetastet) */
+  function brightness(data, w, h, ch) {
+    let s = 0, c = 0; const step = Math.max(1, Math.floor((w * h) / 4000));
+    for (let i = 0; i < w * h; i += step) { const j = i * ch; s += 0.299 * data[j] + 0.587 * data[j + 1] + 0.114 * data[j + 2]; c++; }
+    return s / c;
+  }
+
   /* Fingerabdrücke fürs Kamerabild: verfeinerte Kanten UND der Rahmen selbst (jeweils mit Varianten) */
   function frameHashes(G, S, guess, game) {
     const r = refineRect(G, guess, ASPECT[game]);
@@ -207,7 +253,7 @@
     return {hashes: hs, rect: r.refined ? r : guess};
   }
 
-  const Vision = {frameHashes, ART, ASPECT, ACCEPT, gray, integral, hashRect, artRect, cardHash, jitterHashes, match, accepted, dist, encodeDB, decodeDB, refineRect, popcount: pc};
+  const Vision = {enhance, brightness, frameHashes, ART, ASPECT, ACCEPT, gray, integral, hashRect, artRect, cardHash, jitterHashes, match, accepted, dist, encodeDB, decodeDB, refineRect, popcount: pc};
   if (typeof module !== 'undefined' && module.exports) module.exports = Vision;
   else root.Vision = Vision;
 })(typeof self !== 'undefined' ? self : this);

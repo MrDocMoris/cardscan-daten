@@ -1,0 +1,22 @@
+name: Test Bildverbesserung (schlechtes Licht)
+
+on:
+  workflow_dispatch:
+    inputs:
+      n:
+        description: "Anzahl Proben"
+        default: "300"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: cd tools && npm i --no-audit --no-fund sharp
+      - name: Gutes Licht
+        run: node tools/validate.js --compare --n ${{ github.event.inputs.n }}
+      - name: Schlechtes Licht
+        run: node tools/validate.js --compare --light --n ${{ github.event.inputs.n }}

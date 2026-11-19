@@ -5,7 +5,7 @@ const fs = require('fs'), path = require('path');
 const sharp = require('sharp');
 const V = require('../vision.js');
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : d; };
-const N = +arg('--n', 300), NEG = +arg('--neg', 150), IMGDIR = arg('--images', null);
+const N = +arg('--n', 300), NEG = +arg('--neg', 150), IMGDIR = arg('--images', null), LIGHT = process.argv.includes('--light');
 const db = V.decodeDB(new Uint8Array(fs.readFileSync(path.join(__dirname, '..', 'data', 'ygo.bin'))).buffer);
 let seed = 12345; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -29,6 +29,18 @@ async function simulate(buf) {
     const svg = `<svg width="${W}" height="${H}"><defs><radialGradient id="g"><stop offset="0" stop-color="#fff" stop-opacity="${a}"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><circle cx="${gx}" cy="${gy}" r="${gr}" fill="url(#g)"/></svg>`;
     card = await sharp(card).composite([{input: Buffer.from(svg)}]).png().toBuffer();
   }
+  if (LIGHT) { // schlechtes Licht: dunkel, Farbstich, Schattenverlauf, Rauschen
+    const dark = 0.25 + rnd() * 0.4;
+    const tints = [{r: 255, g: 190, b: 120}, {r: 150, g: 180, b: 255}, {r: 255, g: 230, b: 180}, {r: 200, g: 255, b: 200}];
+    card = await sharp(card).modulate({brightness: dark}).tint(tints[Math.floor(rnd() * tints.length)]).png().toBuffer();
+    const ang = Math.floor(rnd() * 4), a1 = (0.35 + rnd() * 0.5).toFixed(2);
+    const [x1, y1, x2, y2] = [[0, 0, 1, 0], [1, 0, 0, 0], [0, 0, 0, 1], [0, 1, 0, 0]][ang];
+    const svg = `<svg width="${W}" height="${H}"><defs><linearGradient id="s" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="#000" stop-opacity="${a1}"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#s)"/></svg>`;
+    card = await sharp(card).composite([{input: Buffer.from(svg)}]).png().toBuffer();
+    const noise = Buffer.alloc(W * H * 3); for (let i = 0; i < noise.length; i++) noise[i] = 128 + Math.round((rnd() - 0.5) * 50);
+    const nimg = await sharp(noise, {raw: {width: W, height: H, channels: 3}}).png().toBuffer();
+    card = await sharp(card).composite([{input: nimg, blend: 'overlay'}]).png().toBuffer();
+  }
   const rot = await sharp(card).rotate(angle, {background: bg}).png().toBuffer();
   const rm = await sharp(rot).metadata();
   const pl = Math.round(W * (0.1 + rnd() * 0.25)), pr = Math.round(W * (0.1 + rnd() * 0.25)), pt = Math.round(H * (0.08 + rnd() * 0.15)), pb = Math.round(H * (0.08 + rnd() * 0.15));
@@ -38,20 +50,46 @@ async function simulate(buf) {
   return {data, info, truth: {x: cx - W / 2, y: cy - H / 2, w: W, h: H}};
 }
 
-function runPipeline(sim, useRefine) {
+function runPipeline(sim, useRefine, mode) {
   const {data, info, truth} = sim;
   const G = V.gray(data, info.width, info.height, info.channels), S = V.integral(G);
+  let G2 = null, S2 = null;
+  if (mode === 'enh' || mode === 'both') { const e = V.enhance(data, info.width, info.height, info.channels); G2 = V.gray(e, info.width, info.height, info.channels); S2 = V.integral(G2); }
   // Nutzer hält die Karte ungefähr in den Rahmen: Position ±4 %, Größe ±5 %, Rahmen evtl. im 63:88-Format (Auto-Modus)
   const guideAspect = rnd() < 0.5 ? V.ASPECT.ygo : V.ASPECT.mtg;
   const gh = truth.h * (1 + (rnd() - 0.5) * 0.10), gw = gh * guideAspect;
   const guess = {x: truth.x + truth.w / 2 - gw / 2 + (rnd() - 0.5) * 0.08 * truth.w, y: truth.y + truth.h / 2 - gh / 2 + (rnd() - 0.5) * 0.08 * truth.h, w: gw, h: gh};
   if (!useRefine) return {m: V.match(db, V.jitterHashes(S, guess, 'ygo')), rect: guess, guess};
-  const fh = V.frameHashes(G, S, guess, 'ygo');
-  return {m: V.match(db, fh.hashes), rect: fh.rect, guess};
+  let hashes = [], rect = guess;
+  if (mode !== 'enh') { const fh = V.frameHashes(G, S, guess, 'ygo'); hashes.push(...fh.hashes); rect = fh.rect; }
+  if (G2) { const fh2 = V.frameHashes(G2, S2, guess, 'ygo'); hashes.push(...fh2.hashes); if (mode === 'enh') rect = fh2.rect; }
+  return {m: V.match(db, hashes), rect, guess};
 }
 
 const pct = (arr, p) => { const s = [...arr].sort((a, b) => a - b); return s.length ? s[Math.min(s.length - 1, Math.floor(p * s.length))] : NaN; };
 
+
+if (process.argv.includes('--compare')) {
+  (async () => {
+    console.log('Datenbank:', db.count, 'Einträge; schlechtes Licht:', LIGHT);
+    const all = Array.from(db.imageIds), res = {raw: [], enh: [], both: []};
+    for (let k = 0; k < N; k++) {
+      const id = all[Math.floor(rnd() * all.length)];
+      const buf = await get(`https://images.ygoprodeck.com/images/cards/${id}.jpg`, true); if (!buf) continue;
+      const kk = db.imageIds.indexOf(id), cardId = db.cardIds[kk];
+      const sim = await simulate(buf);
+      const s0 = seed;
+      for (const mode of ['raw', 'enh', 'both']) { seed = s0; const {m} = runPipeline(sim, true, mode); res[mode].push({ok: m && m.cardId === cardId, d: m ? m.dist : 99, margin: m ? m.margin : 0}); }
+      if ((k + 1) % 50 === 0) console.log(k + 1, 'Proben');
+      await sleep(60);
+    }
+    for (const mode of ['raw', 'enh', 'both']) {
+      const P = res[mode], acc = P.filter(p => p.ok && p.d <= V.ACCEPT.ygo.maxDist && p.margin >= V.ACCEPT.ygo.minMargin).length;
+      const wrong = P.filter(p => !p.ok && p.d <= V.ACCEPT.ygo.maxDist && p.margin >= V.ACCEPT.ygo.minMargin).length;
+      console.log(`${mode.padEnd(5)} Top-1 richtig ${(100 * P.filter(p => p.ok).length / P.length).toFixed(1)} % | sicher erkannt ${(100 * acc / P.length).toFixed(1)} % | Verwechslungen ${wrong} | Abstand p50 ${pct(P.filter(p => p.ok).map(p => p.d), .5)}`);
+    }
+  })().catch(e => { console.error(e); process.exit(1); });
+} else
 (async () => {
   console.log('Datenbank:', db.count, 'Einträge');
   // --- Positive Proben ---
