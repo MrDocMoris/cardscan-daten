@@ -1,7 +1,7 @@
 {
- "build": 21,
- "version": "1.21",
- "size": 5484637,
+ "build": 22,
+ "version": "1.22",
+ "size": 5487032,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Updates funktionieren jetzt: Die App wird immer mit demselben Schlüssel signiert\n- Enthält alles aus 1.20 (Bannlisten, Glossare, Pokémon-Duell)"
+ "notes": "Neu in dieser Version:\n- Kartentext auf Deutsch: Beim Antippen einer Karte siehst du den Effekt (Magic, Yu-Gi-Oh) bzw. Fähigkeiten und Attacken (Pokémon)\n- Gibt es keinen deutschen Text, wird der englische angezeigt"
 }
