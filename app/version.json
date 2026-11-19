@@ -1,7 +1,7 @@
 {
- "build": 27,
- "version": "1.27",
- "size": 5492642,
- "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Neu in dieser Version:\n- Die App heißt jetzt „TCG Multiversum“\n- Sammlung, Decks und Einstellungen bleiben erhalten"
+  "build": 28,
+  "version": "1.28",
+  "size": 5492642,
+  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
+  "notes": "Neues App-Symbol und Multiversum-Design"
 }
