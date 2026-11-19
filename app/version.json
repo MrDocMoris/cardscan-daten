@@ -1,7 +1,7 @@
 {
- "build": 19,
- "version": "1.19",
- "size": 5471099,
+ "build": 20,
+ "version": "1.20",
+ "size": 5484569,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Magic-Glossar: 83 Schlüsselwörter wie Eile, Wachsamkeit, Abwehr oder Trampelschaden einfach erklärt (deutsch + englisch, mit Suche)\n- Im Duell über „📖 Regeln“ jederzeit nachschlagbar"
+ "notes": "Neu in dieser Version:\n- Bannlisten: Magic (alle Formate), Yu-Gi-Oh (TCG) live, Pokémon (Standard + Expanded)\n- Bann-Status direkt in der Kartenansicht\n- Glossar jetzt auch für Yu-Gi-Oh und Pokémon\n- Pokémon-Duell: Preiskarten, Schadenszähler, Zustände und Pokémon-Check\n- Bereich „Duell“ heißt jetzt „Spielen“"
 }
