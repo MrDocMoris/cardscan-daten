@@ -1,7 +1,7 @@
 {
- "build": 25,
- "version": "1.25",
- "size": 5492478,
+ "build": 26,
+ "version": "1.26",
+ "size": 5492621,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/CardScan.apk",
- "notes": "Neu in dieser Version:\n- Automatische Bildverbesserung bei schlechtem Licht (Farbstich, Schatten, zu dunkel) für bessere Erkennung\n- Sehr dunkles Foto: Licht schaltet sich automatisch ein\n- Kartenbild antippen: Vollbild mit Zoom, deutsches Kartenbild bei Magic und Pokémon\n- Sammlung: Einträge antippen und bearbeiten (Anzahl, Zustand, Sprache, Edition, Foil, löschen)"
+ "notes": "Neu in dieser Version:\n- Licht geht bei dunklen Fotos nicht mehr automatisch an – es kommt nur ein Hinweis\n- Wer die Automatik möchte: Sammlung → Einstellungen → „Licht bei Dunkelheit automatisch an“"
 }
