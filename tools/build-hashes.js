@@ -40,11 +40,19 @@ async function listMtg() {
   console.log('Bulk-Typen:', (bulk.data || []).map(b => b.type).join(', '));
   const ua = (bulk.data || []).find(b => b.type === 'unique_artwork') || (bulk.data || []).find(b => /unique.?art/i.test(b.type || b.name || ''));
   if(!ua) throw new Error('unique_artwork nicht gefunden: ' + JSON.stringify(bulk).slice(0, 400));
-  console.log('Bulk-Eintrag:', JSON.stringify(ua).slice(0, 600));
-  let dl = ua.download_uri || ua.download_url || ua.url || Object.values(ua).find(v => typeof v === 'string' && /^https:\/\/.*\.json(\.gz)?(\?|$)/.test(v));
-  if(!dl && ua.uri){ const d2 = await fetchRetry(ua.uri, false); dl = d2 && (d2.download_uri || d2.download_url); }
-  console.log('Lade', dl);
-  const cards = await fetchRetry(dl, false);
+  let cards;
+  if(ua.jsonl_download_uri){
+    console.log('Lade', ua.jsonl_download_uri, Math.round((ua.compressed_size || 0) / 1e6), 'MB (gz)');
+    const gz = await fetchRetry(ua.jsonl_download_uri, true);
+    const raw = /\.gz(\?|$)/.test(ua.jsonl_download_uri) ? require('zlib').gunzipSync(gz) : gz;
+    cards = raw.toString('utf8').split('\n').filter(l => l.trim()).map(l => JSON.parse(l));
+  } else {
+    let dl = ua.download_uri || ua.download_url;
+    if(!dl && ua.uri){ const d2 = await fetchRetry(ua.uri, false); dl = d2 && (d2.download_uri || d2.download_url); }
+    console.log('Lade', dl);
+    cards = await fetchRetry(dl, false);
+  }
+  console.log('Karten in der Datei:', cards.length);
   const BAD_LAYOUT = new Set(['token', 'double_faced_token', 'emblem', 'art_series', 'scheme', 'planar', 'vanguard', 'reversible_card']);
   const BAD_SET = new Set(['token', 'memorabilia', 'minigame', 'alchemy', 'vanguard']);
   const out = [];
