@@ -1,7 +1,7 @@
 {
-  "build": 32,
-  "version": "1.32",
-  "size": 6507744,
+  "build": 33,
+  "version": "1.33",
+  "size": 6513421,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Set-Neuigkeiten beim Start: kommende und neue Sets mit Datum"
+  "notes": "Neue Startseite mit Kacheln, Kamera startet erst im Scanner"
 }
