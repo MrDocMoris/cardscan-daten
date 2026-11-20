@@ -1,7 +1,7 @@
 {
-  "build": 39,
-  "version": "1.39",
-  "size": 6522895,
+  "build": 40,
+  "version": "1.40",
+  "size": 6524417,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Scannen: Foto-Auslöser hängt nicht mehr, weniger Fehltreffer"
+  "notes": "Kamera erkennt die Karte live (grüner Rahmen) und stellt automatisch darauf scharf"
 }
