@@ -1,7 +1,7 @@
 {
-  "build": 38,
-  "version": "1.38",
-  "size": 6522504,
+  "build": 39,
+  "version": "1.39",
+  "size": 6522895,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Scannen verbessert: Karte wird passgenau gefunden, schärfere Fotos, Antippen zum Fokussieren"
+  "notes": "Scannen: Foto-Auslöser hängt nicht mehr, weniger Fehltreffer"
 }
