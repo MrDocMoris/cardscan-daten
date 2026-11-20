@@ -1,7 +1,7 @@
 {
-  "build": 45,
-  "version": "1.45",
-  "size": 6529628,
+  "build": 46,
+  "version": "1.46",
+  "size": 6541015,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Bilderkennung jetzt auch für Magic und Pokémon, genauer Druck wird automatisch gewählt"
+  "notes": "Wertverlauf, Kaufpreis, Statistik, Wunsch-/Tauschliste, Deck prüfen, Manakurve, Probehand, Backup-Erinnerung"
 }
