@@ -1,0 +1,7 @@
+1 Testfotos · Datenbanken: ygo 14855, mtg 49531, pkm 19805
+
+✓ mtg__Sentinel of the Nameless City.jpg
+   erwartet: Sentinel of the Nameless City
+   mtg: Sentinel of the Nameless City (Abstand 16, Grenze 26, Abstand zur nächsten 12) angenommen
+
+Ergebnis: 1/1 richtig auf Platz 1, davon 1 sicher angenommen (✓ sicher, ~ richtig aber unsicher, ✗ falsch)
