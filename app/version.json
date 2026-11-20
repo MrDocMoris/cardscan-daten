@@ -1,7 +1,7 @@
 {
- "build": 58,
- "version": "1.58",
- "size": 7421319,
+ "build": 59,
+ "version": "1.59",
+ "size": 7840132,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Mehr-Menüs, „Was ist neu?\", Einführung, Hilfe, automatisches Backup, eigener Server (optional), Code aufgeräumt"
+ "notes": "Große Kartenansicht, „hab ich\" im Deck, Binderseite & Bulk scannen, Verkäufe, Cardmarket-Export, Anzeigentext, versiegelte Produkte, Widget, Preiswecker im Hintergrund"
 }
