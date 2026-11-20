@@ -1,7 +1,7 @@
 {
-  "build": 46,
-  "version": "1.46",
-  "size": 6541015,
+  "build": 48,
+  "version": "1.48",
+  "size": 7375943,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Wertverlauf, Kaufpreis, Statistik, Wunsch-/Tauschliste, Deck prüfen, Manakurve, Probehand, Backup-Erinnerung"
+  "notes": "Schärfere Fotos in voller Kamera-Auflösung und viel bessere Texterkennung (Google ML Kit)"
 }
