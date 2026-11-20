@@ -1,0 +1,13 @@
+name: probe
+on:
+  push:
+    paths: [.github/workflows/probe.yml]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for q in "Island" "Insel" "Wald" "Forest" "Gebirge" "t:basic" "Sumpf"; do
+            curl -s -H "User-Agent: probe/1.0" -H "Accept: application/json" "https://api.scryfall.com/cards/search?q=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")&include_multilingual=true" | python3 -c "import json,sys;d=json.load(sys.stdin);print('$q', d.get('total_cards'), [ (c['name'],c.get('printed_name'),c['lang'],c['type_line']) for c in d.get('data',[])[:6]], d.get('details',''))"
+            sleep 0.3
+          done
