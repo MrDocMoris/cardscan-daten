@@ -1,7 +1,7 @@
 {
-  "build": 49,
-  "version": "1.49",
-  "size": 7376996,
+  "build": 50,
+  "version": "1.50",
+  "size": 7377790,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Texterkennung liest die ganze Karte, Hinweis bei zu dunklem Bild"
+  "notes": "Erkennung verbessert: Name nach Schriftgröße, nichts wird mehr abgeschnitten"
 }
