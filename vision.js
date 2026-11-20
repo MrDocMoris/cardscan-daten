@@ -17,7 +17,7 @@
   };
   const ASPECT = {ygo: 59 / 86, mtg: 63 / 88, pkm: 63 / 88};
   // Annahme-Schwellen (werden anhand der Validierung auf GitHub eingestellt)
-  const ACCEPT = {ygo: {maxDist: 26, minMargin: 7}, mtg: {maxDist: 24, minMargin: 8}, pkm: {maxDist: 24, minMargin: 8}}; // kalibriert: 98 % angenommen, 0 Verwechslungen, 0 Fehlalarme (data/validierung.txt)
+  const ACCEPT = {ygo: {maxDist: 26, minMargin: 7}, mtg: {maxDist: 26, minMargin: 5}, pkm: {maxDist: 24, minMargin: 7}}; // mtg/pkm kalibriert: 97 % angenommen, 0 Verwechslungen (data/validierung-mtg.txt, -pkm.txt) // kalibriert: 98 % angenommen, 0 Verwechslungen, 0 Fehlalarme (data/validierung.txt)
 
   const N = 32;
   const COS = (() => {
