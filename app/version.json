@@ -1,7 +1,7 @@
 {
-  "build": 44,
-  "version": "1.44",
-  "size": 6528062,
+  "build": 45,
+  "version": "1.45",
+  "size": 6529628,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Suchfeld wird beim Antippen geleert"
+  "notes": "Bilderkennung jetzt auch für Magic und Pokémon, genauer Druck wird automatisch gewählt"
 }
