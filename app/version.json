@@ -1,7 +1,7 @@
 {
-  "build": 52,
-  "version": "1.52",
-  "size": 7397063,
+  "build": 53,
+  "version": "1.53",
+  "size": 7410598,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Set-Fortschritt, Ordner, Preiswecker, Zustandsfotos, Deck-Import per Link, günstigste Version, Spielstatistik, Timer, Bild teilen, Serienscan-Prüfliste"
+  "notes": "Mit Freunden vergleichen (QR/Datei), Booster-Tracker, Turnier, Preisverlauf, Zustandspreise, Deck-QR, Schnellstart, Fehlerbericht"
 }

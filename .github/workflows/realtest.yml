@@ -1,0 +1,31 @@
+name: Erkennung mit echten Fotos testen
+
+on:
+  push:
+    paths:
+      - testfotos/**
+      - tools/realtest.js
+      - vision.js
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: cd tools && npm i --no-audit --no-fund sharp
+      - run: node tools/realtest.js | tee data/realtest.txt
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/realtest.txt
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Test mit echten Fotos ($(date +%d.%m.%Y))"
+          git pull --rebase origin main
+          git push
