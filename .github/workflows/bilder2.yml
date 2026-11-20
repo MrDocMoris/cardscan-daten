@@ -30,14 +30,20 @@ jobs:
           node-version: 22
       - name: Werkzeuge installieren
         run: cd tools && npm i --no-audit --no-fund sharp
+      - name: Git einrichten
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
       - name: Pokémon-Fingerabdrücke
         run: node tools/build-hashes.js pkm
+      - name: Pokémon speichern
+        run: |
+          git add data/
+          if ! git diff --cached --quiet; then git commit -m "Pokémon-Bilddatenbank ($(date +%d.%m.%Y))"; git pull --rebase origin main; git push; fi
       - name: Magic-Fingerabdrücke
         run: node tools/build-hashes.js mtg
       - name: Zwischenstand speichern
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
           git add data/
           if ! git diff --cached --quiet; then git commit -m "Magic/Pokémon-Bilddatenbank ($(date +%d.%m.%Y))"; git pull --rebase origin main; git push; fi
       - name: Erkennung testen

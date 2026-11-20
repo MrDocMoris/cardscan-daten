@@ -37,7 +37,9 @@ async function hashImage(buf) {
 // Liste aller Bilder: {id, group, set, number, url}
 async function listMtg() {
   const bulk = await fetchRetry('https://api.scryfall.com/bulk-data', false);
-  const ua = bulk.data.find(b => b.type === 'unique_artwork');
+  console.log('Bulk-Typen:', (bulk.data || []).map(b => b.type).join(', '));
+  const ua = (bulk.data || []).find(b => b.type === 'unique_artwork') || (bulk.data || []).find(b => /unique.?art/i.test(b.type || b.name || ''));
+  if(!ua) throw new Error('unique_artwork nicht gefunden: ' + JSON.stringify(bulk).slice(0, 400));
   console.log('Lade', ua.download_uri, Math.round(ua.size / 1e6), 'MB');
   const cards = await fetchRetry(ua.download_uri, false);
   const BAD_LAYOUT = new Set(['token', 'double_faced_token', 'emblem', 'art_series', 'scheme', 'planar', 'vanguard', 'reversible_card']);
