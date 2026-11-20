@@ -1,7 +1,7 @@
 {
-  "build": 35,
-  "version": "1.35",
-  "size": 6514774,
+  "build": 36,
+  "version": "1.36",
+  "size": 6517094,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Magic: Cardmarket-Link funktioniert wieder"
+  "notes": "Neue Designs: Pokémon, Yu-Gi-Oh! und Magic (in den Einstellungen wählbar)"
 }
