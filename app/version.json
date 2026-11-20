@@ -1,7 +1,7 @@
 {
-  "build": 54,
-  "version": "1.54",
-  "size": 7410772,
-  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Mit Freunden vergleichen (QR/Datei), Booster-Tracker, Turnier, Preisverlauf, Zustandspreise, Deck-QR, Schnellstart, Fehlerbericht, bessere Bilderkennung"
+ "build": 58,
+ "version": "1.58",
+ "size": 7421319,
+ "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
+ "notes": "Mehr-Menüs, „Was ist neu?\", Einführung, Hilfe, automatisches Backup, eigener Server (optional), Code aufgeräumt"
 }
