@@ -1,7 +1,7 @@
 {
-  "build": 37,
-  "version": "1.37",
-  "size": 6521264,
+  "build": 38,
+  "version": "1.38",
+  "size": 6522504,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Detaillierte Designs für Magic, Pokémon und Yu-Gi-Oh! mit eigenen Motiven"
+  "notes": "Scannen verbessert: Karte wird passgenau gefunden, schärfere Fotos, Antippen zum Fokussieren"
 }
