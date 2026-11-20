@@ -1,7 +1,7 @@
 {
-  "build": 43,
-  "version": "1.43",
-  "size": 6527957,
+  "build": 44,
+  "version": "1.44",
+  "size": 6528062,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Karte wird automatisch gescannt, sobald sie erkannt und ruhig ist"
+  "notes": "Suchfeld wird beim Antippen geleert"
 }
