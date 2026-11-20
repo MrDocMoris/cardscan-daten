@@ -1,7 +1,7 @@
 {
-  "build": 40,
-  "version": "1.40",
-  "size": 6524417,
+  "build": 41,
+  "version": "1.41",
+  "size": 6525396,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Kamera erkennt die Karte live (grüner Rahmen) und stellt automatisch darauf scharf"
+  "notes": "Magic: Länder im Deckbau (Standardländer per Tipp, bessere Suche)"
 }
