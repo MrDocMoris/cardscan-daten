@@ -11,11 +11,13 @@
 
   // Artwork-Bereich als Anteil der Karte (leicht nach innen versetzt, damit kein Rahmen mit drin ist)
   const ART = {
-    ygo: {x0: 0.15, y0: 0.21, x1: 0.85, y1: 0.675}
+    ygo: {x0: 0.15, y0: 0.21, x1: 0.85, y1: 0.675},
+    mtg: {x0: 0.11, y0: 0.135, x1: 0.89, y1: 0.53},
+    pkm: {x0: 0.11, y0: 0.13, x1: 0.89, y1: 0.45}
   };
   const ASPECT = {ygo: 59 / 86, mtg: 63 / 88, pkm: 63 / 88};
   // Annahme-Schwellen (werden anhand der Validierung auf GitHub eingestellt)
-  const ACCEPT = {ygo: {maxDist: 26, minMargin: 7}}; // kalibriert: 98 % angenommen, 0 Verwechslungen, 0 Fehlalarme (data/validierung.txt)
+  const ACCEPT = {ygo: {maxDist: 26, minMargin: 7}, mtg: {maxDist: 24, minMargin: 8}, pkm: {maxDist: 24, minMargin: 8}}; // kalibriert: 98 % angenommen, 0 Verwechslungen, 0 Fehlalarme (data/validierung.txt)
 
   const N = 32;
   const COS = (() => {

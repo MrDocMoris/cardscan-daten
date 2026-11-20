@@ -6,7 +6,14 @@ const sharp = require('sharp');
 const V = require('../vision.js');
 const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : d; };
 const N = +arg('--n', 300), NEG = +arg('--neg', 150), IMGDIR = arg('--images', null), LIGHT = process.argv.includes('--light');
-const db = V.decodeDB(new Uint8Array(fs.readFileSync(path.join(__dirname, '..', 'data', 'ygo.bin'))).buffer);
+const GAME = arg('--game', 'ygo');
+const DATA = path.join(__dirname, '..', 'data');
+const loadDB = g => V.decodeDB(new Uint8Array(fs.readFileSync(path.join(DATA, g + '.bin'))).buffer);
+const db = loadDB(GAME);
+// Bild-Adresse je Eintrag (imageId) für das geprüfte Spiel
+const urlsOf = g => { if(g === 'ygo') return null; const ids = JSON.parse(fs.readFileSync(path.join(DATA, g + '-ids.json'), 'utf8')); const urls = JSON.parse(fs.readFileSync(path.join(DATA, g + '-urls.json'), 'utf8')); return ids.items.map(it => urls[it[0]]); };
+const URLS = urlsOf(GAME);
+const imgUrl = id => GAME === 'ygo' ? `https://images.ygoprodeck.com/images/cards/${id}.jpg` : URLS[id];
 let seed = 12345; const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function get(url, buf) {
@@ -56,13 +63,13 @@ function runPipeline(sim, useRefine, mode) {
   let G2 = null, S2 = null;
   if (mode === 'enh' || mode === 'both') { const e = V.enhance(data, info.width, info.height, info.channels); G2 = V.gray(e, info.width, info.height, info.channels); S2 = V.integral(G2); }
   // Nutzer hält die Karte ungefähr in den Rahmen: Position ±4 %, Größe ±5 %, Rahmen evtl. im 63:88-Format (Auto-Modus)
-  const guideAspect = rnd() < 0.5 ? V.ASPECT.ygo : V.ASPECT.mtg;
+  const guideAspect = GAME === 'ygo' ? (rnd() < 0.5 ? V.ASPECT.ygo : V.ASPECT.mtg) : V.ASPECT.mtg;
   const gh = truth.h * (1 + (rnd() - 0.5) * 0.10), gw = gh * guideAspect;
   const guess = {x: truth.x + truth.w / 2 - gw / 2 + (rnd() - 0.5) * 0.08 * truth.w, y: truth.y + truth.h / 2 - gh / 2 + (rnd() - 0.5) * 0.08 * truth.h, w: gw, h: gh};
-  if (!useRefine) return {m: V.match(db, V.jitterHashes(S, guess, 'ygo')), rect: guess, guess};
+  if (!useRefine) return {m: V.match(db, V.jitterHashes(S, guess, GAME)), rect: guess, guess};
   let hashes = [], rect = guess;
-  if (mode !== 'enh') { const fh = V.frameHashes(G, S, guess, 'ygo'); hashes.push(...fh.hashes); rect = fh.rect; }
-  if (G2) { const fh2 = V.frameHashes(G2, S2, guess, 'ygo'); hashes.push(...fh2.hashes); if (mode === 'enh') rect = fh2.rect; }
+  if (mode !== 'enh') { const fh = V.frameHashes(G, S, guess, GAME); hashes.push(...fh.hashes); rect = fh.rect; }
+  if (G2) { const fh2 = V.frameHashes(G2, S2, guess, GAME); hashes.push(...fh2.hashes); if (mode === 'enh') rect = fh2.rect; }
   return {m: V.match(db, hashes), rect, guess};
 }
 
@@ -75,7 +82,7 @@ if (process.argv.includes('--compare')) {
     const all = Array.from(db.imageIds), res = {raw: [], enh: [], both: []};
     for (let k = 0; k < N; k++) {
       const id = all[Math.floor(rnd() * all.length)];
-      const buf = await get(`https://images.ygoprodeck.com/images/cards/${id}.jpg`, true); if (!buf) continue;
+      const buf = await get(imgUrl(id), true); if (!buf) continue;
       const kk = db.imageIds.indexOf(id), cardId = db.cardIds[kk];
       const sim = await simulate(buf);
       const s0 = seed;
@@ -84,8 +91,8 @@ if (process.argv.includes('--compare')) {
       await sleep(60);
     }
     for (const mode of ['raw', 'enh', 'both']) {
-      const P = res[mode], acc = P.filter(p => p.ok && p.d <= V.ACCEPT.ygo.maxDist && p.margin >= V.ACCEPT.ygo.minMargin).length;
-      const wrong = P.filter(p => !p.ok && p.d <= V.ACCEPT.ygo.maxDist && p.margin >= V.ACCEPT.ygo.minMargin).length;
+      const P = res[mode], acc = P.filter(p => p.ok && p.d <= V.ACCEPT[GAME].maxDist && p.margin >= V.ACCEPT[GAME].minMargin).length;
+      const wrong = P.filter(p => !p.ok && p.d <= V.ACCEPT[GAME].maxDist && p.margin >= V.ACCEPT[GAME].minMargin).length;
       console.log(`${mode.padEnd(5)} Top-1 richtig ${(100 * P.filter(p => p.ok).length / P.length).toFixed(1)} % | sicher erkannt ${(100 * acc / P.length).toFixed(1)} % | Verwechslungen ${wrong} | Abstand p50 ${pct(P.filter(p => p.ok).map(p => p.d), .5)}`);
     }
   })().catch(e => { console.error(e); process.exit(1); });
@@ -99,7 +106,7 @@ if (process.argv.includes('--compare')) {
   const pos = {ref: [], raw: []};
   let i = 0;
   for (const id of ids.slice(0, N)) {
-    const buf = IMGDIR ? fs.readFileSync(path.join(IMGDIR, id)) : await get(`https://images.ygoprodeck.com/images/cards/${id}.jpg`, true);
+    const buf = IMGDIR ? fs.readFileSync(path.join(IMGDIR, id)) : await get(imgUrl(id), true);
     if (!buf) continue;
     const imageId = parseInt(String(id), 10);
     const k = db.imageIds.indexOf(imageId); const cardId = k >= 0 ? db.cardIds[k] : -1;
@@ -117,6 +124,14 @@ if (process.argv.includes('--compare')) {
   const negs = [];
   let negUrls = [];
   if (IMGDIR && fs.existsSync(path.join(IMGDIR, 'neg'))) negUrls = fs.readdirSync(path.join(IMGDIR, 'neg')).map(f => ({file: path.join(IMGDIR, 'neg', f)}));
+  else if (!IMGDIR && GAME !== 'ygo') {
+    const other = ['ygo', 'mtg', 'pkm'].filter(g => g !== GAME);
+    for (const g of other) {
+      if (g === 'ygo') { const d2 = loadDB('ygo'); for (let i = 0; i < 300; i++) negUrls.push({url: `https://images.ygoprodeck.com/images/cards/${d2.imageIds[Math.floor(rnd() * d2.count)]}.jpg`, kind: 'ygo'}); }
+      else { try { const u = urlsOf(g); for (let i = 0; i < 300; i++) negUrls.push({url: u[Math.floor(rnd() * u.length)], kind: g}); } catch (e) {} }
+    }
+    negUrls.sort(() => rnd() - 0.5);
+  }
   else if (!IMGDIR) {
     for (const q of ['set:dmu', 'set:mom', 'set:woe']) {
       const r = await get(`https://api.scryfall.com/cards/search?q=${encodeURIComponent(q)}`, false);

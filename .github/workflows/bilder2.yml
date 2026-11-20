@@ -1,0 +1,52 @@
+name: Magic- und Pokémon-Bilddatenbank
+
+on:
+  schedule:
+    - cron: "37 2 * * 2"   # dienstags: neue Karten nachladen
+  workflow_dispatch:
+    inputs:
+      validate:
+        description: "Erkennung danach testen (true/false)"
+        required: false
+        default: "true"
+  push:
+    paths:
+      - tools/build-hashes.js
+      - .github/workflows/bilder2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  bilder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Werkzeuge installieren
+        run: cd tools && npm i --no-audit --no-fund sharp
+      - name: Pokémon-Fingerabdrücke
+        run: node tools/build-hashes.js pkm
+      - name: Magic-Fingerabdrücke
+        run: node tools/build-hashes.js mtg
+      - name: Zwischenstand speichern
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/
+          if ! git diff --cached --quiet; then git commit -m "Magic/Pokémon-Bilddatenbank ($(date +%d.%m.%Y))"; git pull --rebase origin main; git push; fi
+      - name: Erkennung testen
+        if: github.event_name != 'schedule' && (github.event_name == 'push' || github.event.inputs.validate == 'true')
+        run: |
+          node tools/validate.js --game pkm --n 300 --neg 200 | tee data/validierung-pkm.txt
+          node tools/validate.js --game mtg --n 300 --neg 200 | tee data/validierung-mtg.txt
+      - name: Ergebnis speichern
+        if: always()
+        run: |
+          git add data/ || true
+          if ! git diff --cached --quiet; then git commit -m "Validierung Magic/Pokémon"; git pull --rebase origin main; git push; fi
