@@ -1,7 +1,7 @@
 {
-  "build": 50,
-  "version": "1.50",
-  "size": 7377790,
+  "build": 51,
+  "version": "1.51",
+  "size": 7379732,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Erkennung verbessert: Name nach Schriftgröße, nichts wird mehr abgeschnitten"
+  "notes": "Sammlung und Decks nach Kartenart sortiert (Kreaturen, Trainer, Effektmonster …)"
 }
