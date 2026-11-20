@@ -1,7 +1,7 @@
 {
-  "build": 41,
-  "version": "1.41",
-  "size": 6525396,
+  "build": 42,
+  "version": "1.42",
+  "size": 6527342,
   "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
-  "notes": "Magic: Länder im Deckbau (Standardländer per Tipp, bessere Suche)"
+  "notes": "Scanner ohne gepunktete Felder, Fotos werden entrauscht und geschärft"
 }
