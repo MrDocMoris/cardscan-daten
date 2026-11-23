@@ -1,7 +1,7 @@
 {
- "build": 60,
- "version": "1.60",
- "size": 7875173,
+ "build": 61,
+ "version": "1.61",
+ "size": 7876421,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Ankaufsrechner, Einnahmen & Ausgaben, Privat/Gewerbe, PDF-Preisschilder & Wertgutachten, Display-Rechner, Centering, Sprachsuche, Deck-Werkzeuge, Offline-Modus, Erfolge, Tauschanfragen"
+ "notes": "Fehlende Deckkarten als Cardmarket-Datei (Text oder CSV) für die Wants-Liste"
 }
