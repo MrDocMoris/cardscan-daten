@@ -1,7 +1,7 @@
 {
- "build": 62,
- "version": "1.62",
- "size": 7904811,
+ "build": 63,
+ "version": "1.63",
+ "size": 7911280,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Händler-/Sammler-Modus, offizielle Cardmarket-Preisliste, Bestellungen & Rechnungen, Rückgängig, Selbsttest, Profile, Binder-Planer, Probespiel, CardTrader und mehr"
+ "notes": "QR-Code pro Karte, Schnellmenü per langem Druck, Wischen zum Schließen, letzte Suchen, kein 5-MB-Speicherlimit mehr, Fehlerprotokoll"
 }
