@@ -1,0 +1,20 @@
+name: Cardmarket-Preisliste
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  preise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/build-cm-prices.py /tmp/out
+      - name: Auf Zweig data-cm veröffentlichen (ohne Verlauf)
+        run: |
+          cd /tmp/out
+          git init -q -b data-cm
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add -A && git commit -qm "Cardmarket-Preise $(date +%F)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" data-cm
