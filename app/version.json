@@ -1,7 +1,7 @@
 {
- "build": 63,
- "version": "1.63",
- "size": 7911280,
+ "build": 64,
+ "version": "1.64",
+ "size": 7920004,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "QR-Code pro Karte, Schnellmenü per langem Druck, Wischen zum Schließen, letzte Suchen, kein 5-MB-Speicherlimit mehr, Fehlerprotokoll"
+ "notes": "Neues Design: eigene Symbole statt Emojis, einheitliche Fenster mit Schließen-Knopf oben, Lade-Platzhalter"
 }
