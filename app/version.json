@@ -1,7 +1,7 @@
 {
- "build": 64,
- "version": "1.64",
- "size": 7920004,
+ "build": 66,
+ "version": "1.66",
+ "size": 11743707,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Neues Design: eigene Symbole statt Emojis, einheitliche Fenster mit Schließen-Knopf oben, Lade-Platzhalter"
+ "notes": "Erfolgs-Animation, Wischen in der Sammlung, Holo-Effekt, Spielfarben, Ziehen zum Aktualisieren, Einstellungen in Gruppen, Diagramme, neues App-Symbol"
 }
