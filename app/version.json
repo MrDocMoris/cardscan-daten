@@ -1,7 +1,7 @@
 {
- "build": 66,
- "version": "1.66",
- "size": 11743707,
+ "build": 67,
+ "version": "1.67",
+ "size": 11745645,
  "apk": "https://raw.githubusercontent.com/MrDocMoris/cardscan-daten/main/app/TCG-Multiversum.apk",
- "notes": "Erfolgs-Animation, Wischen in der Sammlung, Holo-Effekt, Spielfarben, Ziehen zum Aktualisieren, Einstellungen in Gruppen, Diagramme, neues App-Symbol"
+ "notes": "Decks als Banner mit Kartenbild, Deckwert mit Veränderung und Wertverlauf, alle Deckpreise auf einmal aktualisieren"
 }
